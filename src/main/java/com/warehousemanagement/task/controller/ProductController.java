@@ -31,10 +31,10 @@ public class ProductController {
         List<Product> products = productService.getAll();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
-    @GetMapping("sellproduct/{id}")
+    @GetMapping("/sellproduct/{id}")
     public ResponseEntity<Product> sellProduct(@PathVariable Long id){
-        this.productService.sellProduct(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        Product product=this.productService.sellProduct(id);
+        return new ResponseEntity<>(product,HttpStatus.OK);
     }
 
 }

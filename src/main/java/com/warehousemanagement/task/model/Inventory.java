@@ -25,4 +25,5 @@ public class Inventory {
     private int stock;
 
 
+
 }

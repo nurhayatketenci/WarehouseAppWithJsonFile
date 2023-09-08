@@ -26,7 +26,7 @@ public class Product {
     private String name;
 
     @JsonProperty("contain_articles")
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "product_articles",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "articles_id"))
