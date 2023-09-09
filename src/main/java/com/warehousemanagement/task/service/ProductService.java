@@ -2,7 +2,7 @@ package com.warehousemanagement.task.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.warehousemanagement.task.dto.BulkProductSaveRequest;
-import com.warehousemanagement.task.exception.NotFoundArticleException;
+import com.warehousemanagement.task.exception.NotFoundException;
 import com.warehousemanagement.task.model.Articles;
 import com.warehousemanagement.task.model.Inventory;
 import com.warehousemanagement.task.model.Product;
@@ -50,7 +50,7 @@ public class ProductService {
 
     public Product sellProduct(Long id) {
         Product product = this.productRepository.findById(id)
-                .orElseThrow(() -> new NotFoundArticleException("Product not found"));
+                .orElseThrow(() -> new NotFoundException("Product not found"));
 
         List<Articles> containArticles = product.getArticles();
         for (Articles article : containArticles) {
@@ -61,7 +61,7 @@ public class ProductService {
                 inventory.setStock(newStock);
                 this.inventoryRepository.save(inventory);
             } else {
-                throw new NotFoundArticleException("There is not enough stock for this product");
+                throw new NotFoundException("There is not enough stock for this product");
             }
         }
         return product;
