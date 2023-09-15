@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name="articles")
-public class Articles {
+public class Article {
     @Id
     @JsonProperty("art_id")
     private Long artId;

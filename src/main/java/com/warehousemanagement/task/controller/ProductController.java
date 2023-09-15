@@ -1,6 +1,7 @@
 package com.warehousemanagement.task.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.warehousemanagement.task.dto.ProductResponse;
 import com.warehousemanagement.task.model.Product;
 import com.warehousemanagement.task.service.ProductService;
 import org.apache.coyote.Response;
@@ -27,13 +28,13 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAll() {
-        List<Product> products = productService.getAll();
+    public ResponseEntity<List<ProductResponse>> getAll() {
+        List<ProductResponse> products = productService.getAll();
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
     @GetMapping("/sellproduct/{id}")
-    public ResponseEntity<Product> sellProduct(@PathVariable Long id){
-        Product product=this.productService.sellProduct(id);
+    public ResponseEntity<ProductResponse> sellProduct(@PathVariable Long id){
+        ProductResponse product=this.productService.sellProduct(id);
         return new ResponseEntity<>(product,HttpStatus.OK);
     }
 

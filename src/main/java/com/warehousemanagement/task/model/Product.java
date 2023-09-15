@@ -1,6 +1,5 @@
 package com.warehousemanagement.task.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -30,6 +29,6 @@ public class Product {
     @JoinTable(name = "product_articles",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "articles_id"))
-    private List<Articles> articles;
+    private List<Article> articles;
 
 }

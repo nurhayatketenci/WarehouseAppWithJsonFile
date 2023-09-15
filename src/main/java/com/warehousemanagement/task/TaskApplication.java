@@ -22,14 +22,5 @@ public class TaskApplication {
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(TaskApplication.class, args);
 	}
-	@Bean
-	public OpenAPI baseOpenAPI() {
-
-		return new OpenAPI()
-				.info(new Info().title("Warehouse Management")
-						.version("1.0.0")
-						.description("OpenAPI documentation "))
-				.addSecurityItem(new SecurityRequirement().addList("jwt"));
-	}
 
 }

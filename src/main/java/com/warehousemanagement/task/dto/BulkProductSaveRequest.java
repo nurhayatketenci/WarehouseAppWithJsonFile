@@ -1,6 +1,5 @@
 package com.warehousemanagement.task.dto;
 
-import com.warehousemanagement.task.model.Articles;
 import com.warehousemanagement.task.model.Product;
 import lombok.Getter;
 import lombok.Setter;
