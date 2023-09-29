@@ -22,13 +22,22 @@ public class InventoryService {
         this.objectMapper = objectMapper;
     }
 
-    public void saveInventory(MultipartFile file) throws IOException {
+    public void saveInventoryForFile(MultipartFile file) throws IOException {
         String inventoryJson = new String(file.getBytes(), StandardCharsets.UTF_8);
         BulkInventorySaveRequest inventorySaveRequest = objectMapper.readValue(inventoryJson, BulkInventorySaveRequest.class);
         List<Inventory> inventoryList = inventorySaveRequest.getInventory();
         for (Inventory inventory : inventoryList) {
             inventoryRepository.save(inventory);
         }
+    }
+    public void save(Inventory inventory){
+        this.inventoryRepository.save(inventory);
+    }
+    protected Inventory findByArtId(Long artId){
+        return this.inventoryRepository.findByArtId(artId);
+    }
+    public boolean existByArtIdAndStockControl(Long artId, int stock){
+        return this.inventoryRepository.existsByArtIdAndStockGreaterThanEqual(artId,stock);
     }
 
     public List<Inventory> getAll() {

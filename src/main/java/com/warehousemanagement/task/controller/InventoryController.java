@@ -24,7 +24,7 @@ public class InventoryController {
     }
     @PostMapping
     public ResponseEntity<Inventory> save(@RequestParam("file")MultipartFile file) throws IOException {
-        this.inventoryService.saveInventory(file);
+        this.inventoryService.saveInventoryForFile(file);
        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @GetMapping

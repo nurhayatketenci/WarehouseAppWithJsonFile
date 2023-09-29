@@ -7,10 +7,7 @@ import com.warehousemanagement.task.exception.NotFoundException;
 import com.warehousemanagement.task.model.Article;
 import com.warehousemanagement.task.model.Inventory;
 import com.warehousemanagement.task.model.Product;
-import com.warehousemanagement.task.repository.ArticleRepository;
-import com.warehousemanagement.task.repository.InventoryRepository;
 import com.warehousemanagement.task.repository.ProductRepository;
-import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,13 +18,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+
 public class ProductService {
     private final ProductRepository productRepository;
-    private final ArticleRepository articleRepository;
-    private final InventoryRepository inventoryRepository;
+    private final InventoryService inventoryService;
+    private final ArticleService articleService;
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final ModelMapper modelMapper;
+
+    public ProductService(ProductRepository productRepository, InventoryService inventoryService, ArticleService articleService, ModelMapper modelMapper) {
+        this.productRepository = productRepository;
+        this.inventoryService = inventoryService;
+        this.articleService = articleService;
+        this.modelMapper = modelMapper;
+    }
 
     public void saveProduct(MultipartFile file) throws IOException {
         String productJson = new String(file.getBytes(), StandardCharsets.UTF_8);
@@ -35,7 +39,7 @@ public class ProductService {
         List<Product> products = productSaveRequest.getProducts();
         for (Product product : products) {
             List<Article> containArticles = product.getArticles();
-            this.articleRepository.saveAll(containArticles);
+            this.articleService.saveAll(containArticles);
             this.productRepository.save(product);
         }
     }
@@ -54,12 +58,12 @@ public class ProductService {
         Product product = findById(id);
         List<Article> containArticles = product.getArticles();
         for (Article article : containArticles) {
-            Inventory inventory = this.inventoryRepository.findByArtId(article.getArtId());
-            boolean status = this.inventoryRepository.existsByArtIdAndStockGreaterThanEqual(article.getArtId(), article.getAmountOf());
+            Inventory inventory = this.inventoryService.findByArtId(article.getArtId());
+            boolean status = this.inventoryService.existByArtIdAndStockControl(article.getArtId(), article.getAmountOf());
             if (status) {
                 int newStock = inventory.getStock() - article.getAmountOf();
                 inventory.setStock(newStock);
-                this.inventoryRepository.save(inventory);
+                this.inventoryService.save(inventory);
             } else {
                 throw new NotFoundException("There is not enough stock for this product");
             }
